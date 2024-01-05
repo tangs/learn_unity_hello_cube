@@ -26,6 +26,9 @@ namespace Common
 
     public struct JobEntity : IComponentData
     {
-        
+    }
+    
+    public struct Aspects : IComponentData
+    {
     }
 }
