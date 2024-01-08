@@ -18,13 +18,13 @@ namespace Aspects
         [BurstCompile]
         public void OnUpdate(ref SystemState state)
         {
-            var deltaTime = SystemAPI.Time.DeltaTime;
+            // var deltaTime = SystemAPI.Time.DeltaTime;
             var elapsedTime = SystemAPI.Time.ElapsedTime;
 
-            foreach (var (transform, speedData) in 
-                     SystemAPI.Query<RefRW<LocalTransform>, RefRO<RotationSpeedData>>())
+            foreach (var movement in 
+                     SystemAPI.Query<VerticalMovementAspect>())
             {
-                transform.ValueRW = transform.ValueRO.RotateY(speedData.ValueRO.radiansPerSecond * deltaTime);
+                movement.Move(elapsedTime);
             }
         }
     }

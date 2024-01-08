@@ -7,6 +7,7 @@ namespace Common
     {
         public bool mainThread;
         public bool iJobEntity;
+        public bool aspects;
 
         private class Baker : Baker<ExecuteAuthoring>
         {
@@ -15,6 +16,7 @@ namespace Common
                 var entity = GetEntity(TransformUsageFlags.None);
                 if (authoring.mainThread) AddComponent<MainThread>(entity);
                 if (authoring.iJobEntity) AddComponent<JobEntity>(entity);
+                if (authoring.aspects) AddComponent<Aspects>(entity);
             }
         }
 
