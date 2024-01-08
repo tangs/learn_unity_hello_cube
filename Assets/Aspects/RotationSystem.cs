@@ -18,13 +18,14 @@ namespace Aspects
         [BurstCompile]
         public void OnUpdate(ref SystemState state)
         {
-            // var deltaTime = SystemAPI.Time.DeltaTime;
+            var deltaTime = SystemAPI.Time.DeltaTime;
             var elapsedTime = SystemAPI.Time.ElapsedTime;
 
             foreach (var movement in 
                      SystemAPI.Query<VerticalMovementAspect>())
             {
                 movement.Move(elapsedTime);
+                movement.Rotation(deltaTime);
             }
         }
     }
@@ -38,6 +39,12 @@ namespace Aspects
         {
             _transform.ValueRW.Position.y = (float)math.sin(
                 _rotationSpeed.ValueRO.radiansPerSecond * elapsedTime);
+        }
+
+        public void Rotation(float deltaTime)
+        {
+            _transform.ValueRW = _transform.ValueRW.RotateY(
+                _rotationSpeed.ValueRO.radiansPerSecond * deltaTime);
         }
     }
     
