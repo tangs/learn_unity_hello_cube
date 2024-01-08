@@ -357,6 +357,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainThread: 0
   iJobEntity: 1
+  aspects: 0
+  prefabs: 0
 --- !u!4 &1204748585
 Transform:
   m_ObjectHideFlags: 0
