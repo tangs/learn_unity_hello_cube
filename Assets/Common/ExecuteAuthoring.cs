@@ -8,6 +8,7 @@ namespace Common
         public bool mainThread;
         public bool iJobEntity;
         public bool aspects;
+        public bool prefabs;
 
         private class Baker : Baker<ExecuteAuthoring>
         {
@@ -17,6 +18,7 @@ namespace Common
                 if (authoring.mainThread) AddComponent<MainThread>(entity);
                 if (authoring.iJobEntity) AddComponent<JobEntity>(entity);
                 if (authoring.aspects) AddComponent<Aspects>(entity);
+                if (authoring.prefabs) AddComponent<Prefabs>(entity);
             }
         }
 
@@ -31,6 +33,10 @@ namespace Common
     }
     
     public struct Aspects : IComponentData
+    {
+    }
+    
+    public struct Prefabs : IComponentData
     {
     }
 }
