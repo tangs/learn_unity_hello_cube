@@ -14,6 +14,9 @@ namespace JobEntity
         private ComponentTypeHandle<PostTransformMatrix> _postTransformHandle;
         private ComponentTypeHandle<LocalTransform> _transformHandle;
         private ComponentTypeHandle<Common.RotationSpeedData> _rotationSpeedHandle;
+
+        private EntityQuery _spinningCubesQuery;
+        private JobChunk _job;
         
         [BurstCompile]
         protected override void OnCreate()
@@ -23,30 +26,28 @@ namespace JobEntity
             _postTransformHandle = GetComponentTypeHandle<PostTransformMatrix>();
             _transformHandle = GetComponentTypeHandle<LocalTransform>();
             _rotationSpeedHandle = GetComponentTypeHandle<Common.RotationSpeedData>(true);
+            
+            _spinningCubesQuery = SystemAPI.QueryBuilder().WithAll<
+                Common.RotationSpeedData, 
+                PostTransformMatrix,
+                LocalTransform>().Build();
+            _job = new JobChunk();
         }
         
         [BurstCompile]
         protected override void OnUpdate()
         {
-            var spinningCubesQuery = SystemAPI.QueryBuilder().WithAll<
-                Common.RotationSpeedData, 
-                PostTransformMatrix,
-                LocalTransform>().Build();
-            
             _postTransformHandle.Update(this);
             _transformHandle.Update(this);
             _rotationSpeedHandle.Update(this);
+
+            _job.deltaTime = SystemAPI.Time.DeltaTime;
+            _job.elapsedTime = (float)SystemAPI.Time.ElapsedTime;
+            _job.postTransformHandle = _postTransformHandle;
+            _job.transformHandle = _transformHandle;
+            _job.rotationSpeedHandle = _rotationSpeedHandle;
             
-            var job = new JobChunk
-            {
-                postTransformHandle = _postTransformHandle,
-                transformHandle = _transformHandle,
-                rotationSpeedHandle = _rotationSpeedHandle,
-                deltaTime = SystemAPI.Time.DeltaTime,
-                elapsedTime = (float)SystemAPI.Time.ElapsedTime,
-            };
-    
-            Dependency = job.ScheduleParallel(spinningCubesQuery, Dependency);
+            Dependency = _job.ScheduleParallel(_spinningCubesQuery, Dependency);
         }
     }
     
