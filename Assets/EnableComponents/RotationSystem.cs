@@ -1,14 +1,17 @@
+using Unity.Burst;
 using Unity.Entities;
 using Unity.Transforms;
 
 namespace EnableComponents
 {
+    [BurstCompile]
     public partial struct RotationSystem : ISystem
     {
         private const float Interval = 3.0f;
 
         private float _delayTime;
         
+        [BurstCompile]
         public void OnCreate(ref SystemState state)
         {
             state.RequireForUpdate<Common.EnableComponent>();
@@ -17,6 +20,7 @@ namespace EnableComponents
             _delayTime = Interval;
         }
 
+        [BurstCompile]
         public void OnUpdate(ref SystemState state)
         {
             var deltaTime = SystemAPI.Time.DeltaTime;
