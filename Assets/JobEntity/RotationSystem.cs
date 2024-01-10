@@ -23,9 +23,9 @@ namespace JobEntity
         {
             RequireForUpdate<Common.JobEntity>();
     
-            _postTransformHandle = GetComponentTypeHandle<PostTransformMatrix>();
-            _transformHandle = GetComponentTypeHandle<LocalTransform>();
-            _rotationSpeedHandle = GetComponentTypeHandle<Common.RotationSpeedData>(true);
+            _postTransformHandle = GetComponentTypeHandle<PostTransformMatrix>(isReadOnly: false);
+            _transformHandle = GetComponentTypeHandle<LocalTransform>(isReadOnly: false);
+            _rotationSpeedHandle = GetComponentTypeHandle<Common.RotationSpeedData>(isReadOnly: true);
             
             _spinningCubesQuery = SystemAPI.QueryBuilder().WithAll<
                 Common.RotationSpeedData, 
@@ -126,7 +126,7 @@ namespace JobEntity
             var matrix = chunk.GetNativeArray(ref postTransformHandle);
             var transforms = chunk.GetNativeArray(ref transformHandle);
             var rotationSpeeds = chunk.GetNativeArray(ref rotationSpeedHandle);
-
+            
             var enumerator = new ChunkEntityEnumerator(false, chunkEnabledMask, chunk.Count);
             while (enumerator.NextEntityIndex(out var i))
             // for (int i = 0, count = chunk.Count; i < count; ++i)
