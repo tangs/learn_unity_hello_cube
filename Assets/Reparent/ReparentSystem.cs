@@ -11,6 +11,8 @@ namespace Reparent
         private bool _attached;
         private float _delayTimeSeconds;
 
+        private EntityQuery _childrenQuery;
+
         public void OnCreate(ref SystemState state)
         {
             state.RequireForUpdate<Common.Reparent>();
@@ -18,6 +20,11 @@ namespace Reparent
 
             _attached = true;
             _delayTimeSeconds = Interval;
+
+            _childrenQuery = SystemAPI.QueryBuilder()
+                .WithAll<LocalTransform>()
+                .WithNone<RotationSpeedData>()
+                .Build();
         }
 
         public void OnUpdate(ref SystemState state)
@@ -39,8 +46,15 @@ namespace Reparent
             }
             else
             {
-                foreach (var (_, entity) in SystemAPI.Query<RefRO<LocalTransform>>()
-                             .WithNone<RotationSpeedData>().WithEntityAccess())
+                // foreach (var (_, entity) in SystemAPI.Query<RefRO<LocalTransform>>()
+                //              .WithNone<RotationSpeedData>().WithEntityAccess())
+                // {
+                //     ecb.AddComponent(entity, new Parent
+                //     {
+                //         Value = rotationEntity
+                //     });
+                // }
+                foreach (var entity in _childrenQuery.ToEntityArray(Allocator.Temp))
                 {
                     ecb.AddComponent(entity, new Parent
                     {

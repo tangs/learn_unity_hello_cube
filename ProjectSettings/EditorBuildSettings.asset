@@ -8,7 +8,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
+  - enabled: 0
     path: Assets/JobEntity/IJobEntity.unity
     guid: 7e6377b1f46bb49019184e5b8bc3fe00
+  - enabled: 1
+    path: Assets/Reparent/Reparent.unity
+    guid: 6502201ff3c8e4642ab56b41544e4e80
   m_configObjects: {}
