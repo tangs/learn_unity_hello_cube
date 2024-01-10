@@ -10,6 +10,7 @@ namespace Common
         public bool aspects;
         public bool prefabs;
         public bool reparent;
+        public bool enableComponent;
 
         private class Baker : Baker<ExecuteAuthoring>
         {
@@ -21,6 +22,7 @@ namespace Common
                 if (authoring.aspects) AddComponent<Aspects>(entity);
                 if (authoring.prefabs) AddComponent<Prefabs>(entity);
                 if (authoring.reparent) AddComponent<Reparent>(entity);
+                if (authoring.enableComponent) AddComponent<EnableComponent>(entity);
             }
         }
 
@@ -43,6 +45,10 @@ namespace Common
     }
     
     public struct Reparent : IComponentData
+    {
+    }
+    
+    public struct EnableComponent : IComponentData
     {
     }
 }
