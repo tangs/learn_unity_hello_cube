@@ -11,6 +11,7 @@ namespace Common
         public bool prefabs;
         public bool reparent;
         public bool enableComponent;
+        public bool gameObjectSync;
 
         private class Baker : Baker<ExecuteAuthoring>
         {
@@ -23,6 +24,7 @@ namespace Common
                 if (authoring.prefabs) AddComponent<Prefabs>(entity);
                 if (authoring.reparent) AddComponent<Reparent>(entity);
                 if (authoring.enableComponent) AddComponent<EnableComponent>(entity);
+                if (authoring.gameObjectSync) AddComponent<GameObjectSync>(entity);
             }
         }
 
@@ -49,6 +51,10 @@ namespace Common
     }
     
     public struct EnableComponent : IComponentData
+    {
+    }
+
+    public struct GameObjectSync : IComponentData
     {
     }
 }
